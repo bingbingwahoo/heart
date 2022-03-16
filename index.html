@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Heart Rate Monitor</title>
+  <link rel="shortcut icon" href="images/heart.svg">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/data-view-reader.js"></script>
+  <script src="js/heart-rate-monitor.js"></script>
+  <script src="js/main.js"></script>
+</head>
+<body>
+
+<div class="heart-container">
+  <div class="heart">
+    <div class="heart-icon icon"></div>
+    <svg class="heart-content" width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+      <foreignObject x="0" y="0" width="100%" height="100%">
+        <div class="heart-text-container" id="heart-start-text-container">
+          <div class="heart-text">
+            <div class="heart-text-large">Click</div>
+            <div class="heart-text-small">to start</div>
+          </div>
+        </div>
+        <div class="heart-text-container" id="heart-connecting-text-container" hidden>
+          <div class="heart-text heart-text-small">Connecting&hellip;</div>
+        </div>
+        <div class="heart-text-container" id="heart-paused-text-container" hidden>
+          <div class="heart-text heart-text-small">Paused</div>
+        </div>
+        <div class="heart-text-container" id="heart-rate-text-container" hidden>
+          <div class="heart-text">
+            <div class="heart-text-very-large heart-rate-value-text"></div>
+            <div class="heart-text-very-small" title="Beats per minute">bpm</div>
+          </div>
+        </div>
+      </foreignObject>
+    </svg>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,141 @@
+:root,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.icon {
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-position: center center;
+  -webkit-mask-mode: alpha;
+  -webkit-mask-size: contain;
+  -webkit-mask-image: none;
+  mask-repeat: no-repeat;
+  mask-position: center center;
+  mask-mode: alpha;
+  mask-size: contain;
+  mask-image: none;
+}
+
+.heart-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+.heart {
+  --heart-rate: 60;
+
+  width: 75vh;
+  max-width: 75vw;
+  height: 75vh;
+  max-height: 75vw;
+  position: relative;
+  cursor: pointer;
+}
+.heart-icon {
+  --heart-rate-min: 55;
+  --heart-rate-max: 155;
+  --color-hue-min: 135;
+  --color-hue-max: -45;
+  --color-saturation: 100%;
+  --color-lightness: 35%;
+  --hue: calc(var(--color-hue-min) + (var(--color-hue-max) - var(--color-hue-min)) * (var(--heart-rate) - var(--heart-rate-min)) / (var(--heart-rate-max) - var(--heart-rate-min)));
+  --heart-beat-scale: 1.2;
+  --heart-hover-scale: 1.2;
+
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #777;
+  pointer-events: none;
+  transform: none;
+  transform-origin: 50% 50%;
+  -webkit-mask-image: url(../images/heart.svg);
+  mask-image: url(../images/heart.svg);
+  transition:
+    transform 0.25s ease-in-out,
+    background-color 0.125s linear;
+}
+.heart[data-state=active]>.heart-icon {
+  background-color: hsl(var(--hue), var(--color-saturation), var(--color-lightness));
+}
+.heart[data-animate=true]>.heart-icon {
+  animation: heartbeat calc(0.5s * 60 / max(1, var(--heart-rate))) ease-in-out 1;
+}
+.heart:not([data-state]):hover>.heart-icon {
+  transform: scale(var(--heart-hover-scale), var(--heart-hover-scale));
+}
+.heart-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.heart-text-container {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  transition:
+    opacity 0.25s linear,
+    visibility 0.25s linear;
+}
+.heart-text-container[hidden] {
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.25s linear,
+    visibility 0.25s linear 0.25s;
+}
+.heart-text {
+  color: #fff;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  top: 50%;
+  transform: translate(0, -50%);
+  text-align: center;
+  line-height: 1;
+}
+.heart-text-very-small {
+  font-size: 8px;
+}
+.heart-text-small {
+  font-size: 12px;
+}
+.heart-text-large {
+  font-size: 20px;
+}
+.heart-text-very-large {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+@keyframes heartbeat {
+  0% {
+    transform: scale(1, 1);
+  }
+  50% {
+    transform: scale(var(--heart-beat-scale), var(--heart-beat-scale));
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
