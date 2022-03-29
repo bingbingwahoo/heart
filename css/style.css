@@ -42,13 +42,17 @@ body {
   cursor: pointer;
 }
 .heart-icon {
-  --heart-rate-min: 55;
-  --heart-rate-max: 155;
-  --color-hue-min: 135;
-  --color-hue-max: -45;
+  --heart-rate-min: 50;
+  --heart-rate-max: 170;
+  --color-hue-min: 210;
+  --color-hue-max: -80;
   --color-saturation: 100%;
   --color-lightness: 35%;
-  --hue: calc(var(--color-hue-min) + (var(--color-hue-max) - var(--color-hue-min)) * (var(--heart-rate) - var(--heart-rate-min)) / (var(--heart-rate-max) - var(--heart-rate-min)));
+  --hue: calc(
+    var(--color-hue-min) +
+    (var(--color-hue-max) - var(--color-hue-min)) *
+    clamp(0, (var(--heart-rate) - var(--heart-rate-min)) / (var(--heart-rate-max) - var(--heart-rate-min)), 1)
+  );
   --heart-beat-scale: 1.2;
   --heart-hover-scale: 1.2;
 
