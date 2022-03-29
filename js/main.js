@@ -131,7 +131,7 @@ class Controller {
 
   _startBeatTimer() {
     if (this._beatTimer !== null || this._staleTimer === null) { return; }
-    this._beatTimer = setTimeout(this._onBeatTimeoutBind, 60 / Math.max(1, this._heartRate) * 1000);
+    this._beatTimer = setTimeout(this._onBeatTimeoutBind, 60 / Math.max(30, Math.min(240, this._heartRate)) * 1000);
   }
 }
 

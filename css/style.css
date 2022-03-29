@@ -71,7 +71,7 @@ body {
   background-color: hsl(var(--hue), var(--color-saturation), var(--color-lightness));
 }
 .heart[data-animate=true]>.heart-icon {
-  animation: heartbeat calc(0.5s * 60 / max(1, var(--heart-rate))) ease-in-out 1;
+  animation: heartbeat calc(0.5s * 60 / clamp(30, var(--heart-rate), 240)) ease-in-out 1;
 }
 .heart:not([data-state]):hover>.heart-icon {
   transform: scale(var(--heart-hover-scale), var(--heart-hover-scale));
