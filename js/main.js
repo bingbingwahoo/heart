@@ -18,6 +18,8 @@ class Controller {
     this._heartStartTextContainerElement = document.querySelector('#heart-start-text-container');
     this._heartConnectingTextContainerElement = document.querySelector('#heart-connecting-text-container');
     this._heartPausedTextContainerElement = document.querySelector('#heart-paused-text-container');
+    this._wakeLock = null;
+    this._onWakeLockReleasedBind = this._onWakeLockReleased.bind(this);
   }
 
   prepare() {
@@ -77,6 +79,10 @@ class Controller {
     this._startBeatTimer();
   }
 
+  _onWakeLockReleased() {
+    this._endWakeLock();
+  }
+
   async _start() {
     try {
       this._starting = true;
@@ -87,6 +93,7 @@ class Controller {
       const location = await this._heartRateMonitor.getBodySensorLocation();
       this._heartElement.dataset.location = location;
       await this._heartRateMonitor.start();
+      this._startWakeLock();
       this._started = true;
     } catch (e) {
       if (this._heartRateMonitor !== null) {
@@ -99,6 +106,23 @@ class Controller {
       this._heartConnectingTextContainerElement.hidden = true;
       this._starting = false;
     }
+  }
+
+  async _startWakeLock() {
+    try {
+      this._wakeLock = await navigator.wakeLock.request('screen');
+      this._wakeLock.addEventListener('release', this._onWakeLockReleasedBind);
+    } catch (e) {
+      // Ignore
+    }
+  }
+
+  async _endWakeLock() {
+    const wakeLock = this._wakeLock;
+    if (wakeLock === null) { return; }
+    this._wakeLock = null;
+    wakeLock.removeEventListener('release', this._onWakeLockReleasedBind);
+    await wakeLock.release();
   }
 
   async _setPaused(value) {
@@ -120,9 +144,11 @@ class Controller {
           clearTimeout(this._beatTimer);
           this._beatTimer = null;
         }
+        await this._endWakeLock();
       } else {
         this._heartElement.dataset.state = 'stale';
         await this._heartRateMonitor.start();
+        await this._startWakeLock();
       }
     } finally {
       this._pauseChanging = false;
