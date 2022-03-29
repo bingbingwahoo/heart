@@ -40,6 +40,7 @@ body {
   max-height: 75vw;
   position: relative;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 .heart-icon {
   --heart-rate-min: 50;
